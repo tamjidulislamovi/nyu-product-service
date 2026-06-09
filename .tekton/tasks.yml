@@ -1,0 +1,24 @@
+```yaml
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: project-tasks
+spec:
+  steps:
+    - name: cleanup
+      image: alpine:latest
+      script: |
+        #!/bin/sh
+        echo "Starting workspace cleanup..."
+        rm -rf *
+        echo "Workspace cleanup completed successfully."
+
+    - name: test
+      image: python:3.9-slim
+      script: |
+        #!/bin/sh
+        echo "Installing test dependencies..."
+        pip install --upgrade pip
+        pip install nose flake8
+        echo "Running unit tests with nose..."
+        nosetests -v
